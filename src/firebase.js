@@ -12,7 +12,6 @@ export default class Firebase {
             appId: "1:487617567114:web:b328f516842e95f6bb9073",
             databaseURL: "https://react-shop-books-default-rtdb.firebaseio.com",
         }
-        this.firebaseInit()
     }
 
     firebaseInit(){

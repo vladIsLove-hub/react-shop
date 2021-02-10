@@ -1,4 +1,4 @@
-const rootReducer = (state: any, action: any) => {
+const rootReducer = ( state, action ) => {
     switch(action.type){
         default:
             return state
