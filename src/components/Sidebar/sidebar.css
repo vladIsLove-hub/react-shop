@@ -1,0 +1,36 @@
+.sidebar-close-hidden {
+    display: none;
+    position: absolute;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: 600;
+    top: -5px;
+    right: 10px;
+}
+
+.sidebar-size {
+    width: 25%;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-hidden {
+        transform: translateX(-1200px);
+        width: 40%;
+        z-index: 5;
+    }
+
+    .sidebar-size-md {
+        width: 100%;
+    }
+
+    .sidebar-close-show {
+        display: inline;
+    }
+}
+
+.sidebar-show {
+    transform: translateX(0px);
+}
+
+
+
