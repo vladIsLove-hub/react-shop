@@ -17,9 +17,9 @@ const CurrentItemsSpan = styled.span`
 
 const Nav = () => {
     return (
-        <nav style={{padding: '10px 2rem'}} className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav style={{padding: '10px 1rem'}} className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
             <div className="container-fluid">
-                <a style={{marginRight: '3rem'}} className="navbar-brand mb-0 mr-2 h1" href="/">React Shop</a>
+                <a style={{marginRight: '2rem', color: '#0c964a', fontSize: '24px'}} className="navbar-brand mb-0 mr-2 h1" href="/">React Shop</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -36,7 +36,7 @@ const Nav = () => {
                             </button>       
                         </li>
                         <li className="nav-item nav-short">
-                            <button className='btn btn-outline-primary nav-short'>Вход</button>
+                            <button className='btn btn-outline-success nav-short'>Вход</button>
                         </li>
                     </ul>
                 </div>
