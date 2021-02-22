@@ -1,3 +1,4 @@
+import axios from "axios";
 import firebase from "firebase";
 import 'firebase/database';
 
@@ -17,7 +18,10 @@ export default class Firebase {
     firebaseInit(){
         firebase.initializeApp(this.firebaseConfig)
     }
+
+    getBooks = async () => {
+        return await axios.get(`${this.firebaseConfig.databaseURL}/books.json`)
+                            .then(response => response.data)
+    }
 }
-
-
 

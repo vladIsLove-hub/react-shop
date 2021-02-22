@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import { Provider } from 'react-redux' 
 import {BrowserRouter as Router} from 'react-router-dom'
-import { FirebaseProvider } from "./components/firebase-context/firebase-context";
+import { FirebaseProvider } from "./firebase-context/firebase-context";
 import store from './store'
 import Firebase from "./firebase";
 
