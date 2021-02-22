@@ -1,7 +1,7 @@
 import React from 'react'
-import { FirebaseConsumer } from '../firebase-context/firebase-context'
+import { FirebaseConsumer } from '../../firebase-context/firebase-context'
 
-const hocBooksstoreService = () => ( Wrapped ) => {
+const hocFirebase = () => ( Wrapped ) => {
     return ( props ) => {
         return(
             <FirebaseConsumer>
@@ -17,4 +17,4 @@ const hocBooksstoreService = () => ( Wrapped ) => {
     }
 }
 
-export default hocBooksstoreService
+export default hocFirebase

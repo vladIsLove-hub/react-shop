@@ -1,16 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-const aside = document.getElementById('aside')
 
 const MenuBtn = styled.button`
     position: absolute;
     top: 10px;
     left: 15px;
 `
-
-const showSidebar = () => {
-    
-}
 
 const MenuButton = ({ setVisible }) => {
     return (
