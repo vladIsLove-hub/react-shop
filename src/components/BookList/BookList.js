@@ -26,9 +26,9 @@ class BookListContainer extends React.Component {
     }
 
     render() {
-        const {books} = this.props
+        const { books } = this.props
 
-        if(books.length === 0){
+        if(!books.length){
             return <Preloader />
         }
        
