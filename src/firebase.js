@@ -13,6 +13,7 @@ export default class Firebase {
             appId: "1:487617567114:web:b328f516842e95f6bb9073",
             databaseURL: "https://react-shop-books-default-rtdb.firebaseio.com",
         }
+        this.baseURL = `${this.firebaseConfig.databaseURL}/books.json`
     }
 
     firebaseInit(){
@@ -20,8 +21,24 @@ export default class Firebase {
     }
 
     getBooks = async () => {
-        return await axios.get(`${this.firebaseConfig.databaseURL}/books.json`)
-                            .then(response => response.data)
+        return await axios.get(this.baseURL)
+                            .then(response => {
+                                const books = response.data
+                                if(Array.isArray(books)){
+                                    return books
+                                } else {
+                                    return Object.values(books)
+                                }
+                            })
+    }
+
+    addBook = async (book) => {
+        await axios.post(this.baseURL, book, {
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            }
+        })
     }
 }
 

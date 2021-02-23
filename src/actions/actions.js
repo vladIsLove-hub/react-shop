@@ -5,6 +5,13 @@ const booksLoaded = (newBooks) => {
     }
 }
 
+export const booksAdded = (dataOfBook) => {
+    return {
+        type: 'BOOKS_ADD',
+        dataOfBook
+    }
+}   
+
 export const requestBooks = (dispatch, myFirebase) => () => {
     myFirebase.getBooks()
         .then(data => dispatch(booksLoaded(data)))

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import './nav.css'
 
@@ -36,7 +37,7 @@ const Nav = () => {
                             </button>       
                         </li>
                         <li className="nav-item nav-short">
-                            <button className='btn btn-outline-success nav-short'>Вход</button>
+                            <Link to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
                         </li>
                     </ul>
                 </div>
