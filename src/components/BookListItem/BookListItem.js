@@ -23,17 +23,15 @@ const BookListItem = ({ book }) => {
 }
 
 function getRating(valueOfStars){
-    const fillStar = <FillStar />
-    const star = <Star />
     const result = []
     const difference = 5 - valueOfStars
 
     for(let i = 0; i < valueOfStars; i++){
-        result.push(fillStar)
+        result.push(<FillStar />)
     }
 
     for(let i = 0; i < difference; i++){
-        result.push(star)
+        result.push(<Star />)
     }
 
     return result
