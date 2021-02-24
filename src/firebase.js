@@ -16,7 +16,7 @@ export default class Firebase {
         this.baseURL = `${this.firebaseConfig.databaseURL}/books.json`
     }
 
-    firebaseInit(){
+    __init__(){
         firebase.initializeApp(this.firebaseConfig)
     }
 
@@ -39,6 +39,16 @@ export default class Firebase {
                 "Access-Control-Allow-Origin": "*",
             }
         })
+    }
+
+    createAccount = (email, password) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .catch(error => console.log(error))
+    }
+
+    auth = (email, password) => {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(error => console.log(error))
     }
 }
 

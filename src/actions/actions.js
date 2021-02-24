@@ -16,3 +16,10 @@ export const requestBooks = (dispatch, myFirebase) => () => {
     myFirebase.getBooks()
         .then(data => dispatch(booksLoaded(data)))
 }
+
+export const signUp = (value) => {
+    return {
+        type: 'SIGN_UP',
+        payload: value
+    }
+}
