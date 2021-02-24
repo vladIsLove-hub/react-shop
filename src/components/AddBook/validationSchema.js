@@ -30,4 +30,5 @@ export const validationSchema = yup.object().shape({
         .required('Обязательное поле!'),
     image: yup.string()
         .required('Обязательное поле!')
+        .trim('Укажите ссылку')
 })

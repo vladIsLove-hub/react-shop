@@ -1,5 +1,7 @@
-const initialState = {
+export const booksInitialState = {
     books: []
 }
 
-export default initialState
+export const authInitialState = {
+    hasLogin: false
+}

@@ -8,6 +8,7 @@ import store from './store'
 import Firebase from "./firebase";
 
 const myFirebase = new Firebase()
+myFirebase.__init__()
 
 ReactDOM.render(
   <Provider store={store}>

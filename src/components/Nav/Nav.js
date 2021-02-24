@@ -38,6 +38,7 @@ const Nav = () => {
                         </li>
                         <li className="nav-item nav-short">
                             <Link to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
+                            <Link to='/registration' className='btn btn-primary nav-short mar-left'>Регистрация</Link>
                         </li>
                     </ul>
                 </div>
