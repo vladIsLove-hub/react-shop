@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from './components/Nav/Nav';
 import MainPage from './components/pages/MainPage';
 import { Switch, Route } from 'react-router-dom'
+import AuthPage from "./components/pages/AuthPage";
 import RegistrationPage from "./components/pages/RegistrationPage";
 
 export const App = () => {
@@ -20,6 +21,7 @@ export const App = () => {
 
                 <Route path='/registration' component={RegistrationPage} />
 
+                <Route path='/auth' component={AuthPage}/>
             </Switch>
         </>   
     )

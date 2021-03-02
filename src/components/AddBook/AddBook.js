@@ -13,21 +13,21 @@ const Label = styled.label`
     margin-bottom: 5px;
 `
 
-const AddBook = ({ booksAdded }) => {
+const AddBook = ({ booksAdded, token }) => {
     return (
         <Formik
             initialValues={ initialValues }
-            validateOnBlur
+            validateOnChange
             validationSchema={ validationSchema }
             onSubmit={ async (values) => {
-                await booksAdded(values)
+                await booksAdded(values, token)
                 for(let key in values){
                     values[key] = ''
                 }
             }}
         >
             {
-                ({ values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) => {
+                ({ values, errors, touched, handleChange, isValid, handleSubmit, dirty }) => {
                     return (
                         <div className="form-group">
                             <Label htmlFor="book-title">Название:</Label>
@@ -39,7 +39,6 @@ const AddBook = ({ booksAdded }) => {
                                 name="title"
                                 required
                                 onChange={ handleChange }
-                                onBlur={ handleBlur }
                                 value={ values.title }
                             />
                             { touched.title && errors.title && <p style={{color: 'red'}}>{errors.title}</p> }
@@ -53,7 +52,6 @@ const AddBook = ({ booksAdded }) => {
                                 name="author"
                                 required
                                 onChange={ handleChange }
-                                onBlur={ handleBlur }
                                 value={ values.author }
                             />
                             { touched.author && errors.author && <p style={{color: 'red'}}>{errors.author}</p> }
@@ -66,7 +64,6 @@ const AddBook = ({ booksAdded }) => {
                                 name="price"
                                 required
                                 onChange={ handleChange }
-                                onBlur={ handleBlur }
                                 value={ values.price }
                             />
                             { touched.price && errors.price && <p style={{color: 'red'}}>{errors.price}</p> }
@@ -79,7 +76,6 @@ const AddBook = ({ booksAdded }) => {
                                 name="rating"
                                 required
                                 onChange={ handleChange }
-                                onBlur={ handleBlur }
                                 value={ values.rating }
                             />
                             { touched.rating && errors.rating && <p style={{color: 'red'}}>{errors.rating}</p> }
@@ -92,7 +88,6 @@ const AddBook = ({ booksAdded }) => {
                                 name="image"
                                 required
                                 onChange={ handleChange }
-                                onBlur={ handleBlur }
                                 value={ values.image }
                             />
                             { touched.image && errors.image && <p style={{color: 'red'}}>{errors.image}</p> }
@@ -114,8 +109,10 @@ const AddBook = ({ booksAdded }) => {
     )
 }
 
-const mapStateToProps = () => {
-    return {}
+const mapStateToProps = ({ authState }) => {
+    return {
+        token: authState.token
+    }
 }
 
 const mapDispatchToProps = {

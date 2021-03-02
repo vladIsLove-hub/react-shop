@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import RegForm from "../RegistrationForm/RegForm";
-import { connect } from 'react-redux'
+import AuthForm from "../AuthForm/AuthForm";
 
 const Card = styled.div`
   width: 23rem;
@@ -22,11 +21,7 @@ const CardTitle = styled.h2`
   color: #0c964a;
 `
 
-const RegistrationPage = ({ hasLogin }) => {
-    if(hasLogin){
-        return <h1>Вы успешно зарегистрировались!</h1>
-    }
-
+const AuthPage = () => {
     return (
         <Wrapper className='bg-dark'>
             <Card className='card' >
@@ -35,20 +30,14 @@ const RegistrationPage = ({ hasLogin }) => {
                         <CardTitle>React Shop</CardTitle>
                     </Link>
                     <h6 style={{textAlign: 'center'}} className="card-subtitle mb-2 text-muted">
-                        Зарегистрируйся, чтобы получить возможность управлять всеми книгами
+                        Войдите, чтобы получить возможность манипулировать книгами в магазине
                     </h6>
                     <hr />
-                    <RegForm />
+                    <AuthForm />
                 </div>
             </Card>
         </Wrapper>
     )
 }
 
-const mapStateToProps = ({authState}) => {
-    return {
-        hasLogin: authState.hasLogin
-    }
-}
-
-export default  connect(mapStateToProps, {})(RegistrationPage)
+export default AuthPage

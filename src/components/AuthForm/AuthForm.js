@@ -1,18 +1,28 @@
 import React from 'react'
-import {Form, Formik} from 'formik'
-import {regInitialValues, validationSchema} from "./validationSchema";
+import { Form, Formik } from 'formik'
+import { signIn } from '../../actions/authActions'
+import { authInitialValues, authValidationSchema } from './validationSchema'
 import { connect } from 'react-redux'
-import { signUp } from "../../actions/authActions";
 import compose from "../../utils/compose";
 import hocFirebase from "../HOC_Firebase/hocFirebase";
 
-const RegForm = ({ signUp, myFirebase }) => {
+
+const onSubmit = async (values, signInAction, myFirebase) => {
+    const { email, password } = values
+    await myFirebase.loginIn(email, password)
+            .then(idToken => signInAction(idToken))
+    for(let key in values){
+        values[key] = ''
+    }
+}
+
+const AuthForm = ({ myFirebase, signIn }) => {
     return (
         <Formik
             validateOnChange
-            initialValues={regInitialValues}
-            validationSchema={validationSchema}
-            onSubmit={values => onSubmit(values, signUp, myFirebase)}
+            initialValues={authInitialValues}
+            validationSchema={authValidationSchema}
+            onSubmit={values => onSubmit(values, signIn, myFirebase)}
         >
             {
                 ({ values, errors, touched, handleChange, isValid, handleSubmit, dirty }) => {
@@ -46,28 +56,14 @@ const RegForm = ({ signUp, myFirebase }) => {
                             </div>
                             { touched.password && errors.password && <p style={{color: 'red'}}>{errors.password}</p> }
 
-                            <div className="mui-textfield mui-textfield--float-label">
-                                <input
-                                    style={{marginBottom: '1.1rem'}}
-                                    type="password"
-                                    autoComplete='on'
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    onChange={ handleChange }
-                                    value={ values.confirmPassword }
-                                />
-                                <label>Подтвердите пароль</label>
-                            </div>
-                            { touched.confirmPassword && errors.confirmPassword && <p style={{color: 'red'}}>{errors.confirmPassword}</p> }
-
                             <button
                                 type='submit'
+                                onClick={handleSubmit}
                                 style={{marginTop: '1.2rem'}}
                                 className="btn btn-success w-100"
-                                onClick={ handleSubmit }
                                 disabled={ isValid && !dirty && touched }
                             >
-                                Зарегистрироваться
+                                Войти
                             </button>
                         </Form>
                     )
@@ -78,24 +74,17 @@ const RegForm = ({ signUp, myFirebase }) => {
     )
 }
 
-async function onSubmit(values, authAction, myFirebase){
-    const { email, password } = values
-    await myFirebase.createAccount(email, password)
-    await authAction(true)
-    for(let key in values){
-        values[key] = ''
-    }
-}
 
 const mapStateToProps = () => {
     return {}
 }
 
 const mapDispatchToProps = {
-    signUp
+    signIn
 }
 
 export default compose(
     hocFirebase(),
     connect(mapStateToProps, mapDispatchToProps)
-)(RegForm)
+)(AuthForm)
+

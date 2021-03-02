@@ -20,7 +20,7 @@ const Nav = () => {
     return (
         <nav style={{padding: '10px 1rem'}} className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
             <div className="container-fluid">
-                <a style={{marginRight: '2rem', color: '#0c964a', fontSize: '24px'}} className="navbar-brand mb-0 mr-2 h1" href="/">React Shop</a>
+                <Link to='/' style={{marginRight: '2rem', color: '#0c964a', fontSize: '24px', textDecoration: 'none'}} className="navbar-brand mb-0 mr-2 h1" href="/">React Shop</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -37,8 +37,8 @@ const Nav = () => {
                             </button>       
                         </li>
                         <li className="nav-item nav-short">
-                            <Link to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
-                            <Link to='/registration' className='btn btn-primary nav-short mar-left'>Регистрация</Link>
+                            <Link style={{textDecoration: 'none'}} to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
+                            <Link style={{textDecoration: 'none'}} to='/registration' className='btn btn-primary nav-short mar-left'>Регистрация</Link>
                         </li>
                     </ul>
                 </div>

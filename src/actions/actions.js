@@ -5,21 +5,15 @@ const booksLoaded = (newBooks) => {
     }
 }
 
-export const booksAdded = (dataOfBook) => {
+export const booksAdded = (dataOfBook, token) => {
     return {
         type: 'BOOKS_ADD',
-        dataOfBook
+        dataOfBook,
+        token
     }
 }   
 
 export const requestBooks = (dispatch, myFirebase) => () => {
     myFirebase.getBooks()
         .then(data => dispatch(booksLoaded(data)))
-}
-
-export const signUp = (value) => {
-    return {
-        type: 'SIGN_UP',
-        payload: value
-    }
 }

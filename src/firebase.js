@@ -32,12 +32,14 @@ export default class Firebase {
                             })
     }
 
-    addBook = async (book) => {
-        await axios.post(this.baseURL, book, {
-            headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-            }
+    addBook = async (book, token) => {
+        await axios.post(`${this.baseURL}?auth=${token}`,
+            book,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                }
         })
     }
 
@@ -46,9 +48,24 @@ export default class Firebase {
             .catch(error => console.log(error))
     }
 
-    auth = (email, password) => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .catch(error => console.log(error))
+    loginIn = (email, password) => {
+        return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.firebaseConfig.apiKey}`,
+        {
+            email, password,
+            returnSecureToken: true //Always be TRUE
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(resp => resp.data)
+            .then(data => data.idToken)
+    }
+
+    sendSignInLinkToEmail = (email) => {
+        firebase.auth().sendSignInLinkToEmail(email, this.actionCodeSettings)
+            .then(() => console.log('Письмо отправлено'))
     }
 }
 
