@@ -3,5 +3,6 @@ export const booksInitialState = {
 }
 
 export const authInitialState = {
-    hasLogin: false
+    hasLogin: false,
+    token: null
 }

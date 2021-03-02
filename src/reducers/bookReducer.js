@@ -12,9 +12,9 @@ const bookReducer = ( state = booksInitialState, action ) => {
                 books: action.payload
             }
         case 'BOOKS_ADD':
-            const { dataOfBook } = action
+            const { dataOfBook, token } = action
             const { newBooks, newBook } = addBookToState(state, dataOfBook)
-            firebase.addBook(newBook)
+            firebase.addBook(newBook, token)
             return {
                 ...state,
                 books: newBooks

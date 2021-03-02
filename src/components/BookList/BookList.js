@@ -38,9 +38,9 @@ class BookListContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({ booksState }) => {
+const mapStateToProps = ({ bookState }) => {
     return {
-        books: booksState.books
+        books: bookState.books
     }
 }
 
