@@ -5,10 +5,13 @@ import compose from '../../utils/compose'
 import { connect } from 'react-redux'
 import Preloader from '../Preloader/Preloader'
 import { requestBooks } from '../../actions/actions'
+import ErrorWithBooks from '../Errors/ErrorWithBooks'
+import './book-list.css'
 
 const BookList = ({ books }) => {
     return (
-        <div  style={{height: 'calc(100vh - 3.8rem)', overflowY: 'auto'}}  className='flex-shrink-1'>
+        <div className='book-wrapper flex-shrink-1 size-for-adaptive-md'>
+            <ErrorWithBooks />
             <h3 className="text-center">Книги</h3>
             <div className='row d-flex '>
                 { books.map((book, idx) => {

@@ -1,0 +1,11 @@
+.book-wrapper {
+    z-index: 70;
+    height: calc(100vh - 3.8rem);
+    overflow-y: auto;
+}
+
+@media (max-width: 991.98px) {
+    .size-for-adaptive-md {
+        overflow: visible;
+    }
+}

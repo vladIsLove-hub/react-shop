@@ -11,7 +11,7 @@ const MainPage = () => {
         <>
             <main style={{position: 'relative'}} className="container-fluid">
                 <MenuButton setVisible={setVisible} />
-                <div className="row d-flex flex-nowrap">
+                <div className="row d-flex flex-nowrap flex-direction-column-md">
                     <Sidebar setVisible={setVisible} visible={visible} />
                     <BookListContainer />
                 </div>

@@ -1,7 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import AuthForm from "../AuthForm/AuthForm";
+import AuthError from '../Errors/AuthError'
+import { signInError } from '../../actions/authActions'
 
 const Card = styled.div`
   width: 23rem;
@@ -21,17 +24,18 @@ const CardTitle = styled.h2`
   color: #0c964a;
 `
 
-const AuthPage = () => {
+const AuthPage = ({ authError, signInError }) => {
     return (
         <Wrapper className='bg-dark'>
             <Card className='card' >
                 <div className="card-body">
-                    <Link title='React Shop' style={{textDecoration: 'none'}} to='/'>
+                    <Link onClick={() => signInError(null)} title='React Shop' style={{textDecoration: 'none'}} to='/'>
                         <CardTitle>React Shop</CardTitle>
                     </Link>
                     <h6 style={{textAlign: 'center'}} className="card-subtitle mb-2 text-muted">
                         Войдите, чтобы получить возможность манипулировать книгами в магазине
                     </h6>
+                    <AuthError error={ authError } />
                     <hr />
                     <AuthForm />
                 </div>
@@ -40,4 +44,14 @@ const AuthPage = () => {
     )
 }
 
-export default AuthPage
+const mapStateToProps = ({ authState }) => {
+    return {
+        authError: authState.error
+    }
+}
+
+const mapDispatchToProps = {
+    signInError
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage)

@@ -1,28 +1,29 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
-import { signIn } from '../../actions/authActions'
+import { signIn, signInError } from '../../actions/authActions'
 import { authInitialValues, authValidationSchema } from './validationSchema'
 import { connect } from 'react-redux'
 import compose from "../../utils/compose";
 import hocFirebase from "../HOC_Firebase/hocFirebase";
+import { useHistory } from 'react-router'
 
 
-const onSubmit = async (values, signInAction, myFirebase) => {
+const onSubmit = async (values, signInAction, signInErrorAction, myFirebase, history) => {
     const { email, password } = values
-    await myFirebase.loginIn(email, password)
-            .then(idToken => signInAction(idToken))
+    await myFirebase.loginIn(email, password, signInAction, signInErrorAction, history)
     for(let key in values){
         values[key] = ''
     }
 }
 
-const AuthForm = ({ myFirebase, signIn }) => {
+const AuthForm = ({ myFirebase, signIn, signInError }) => {
+    const history = useHistory()
     return (
         <Formik
             validateOnChange
             initialValues={authInitialValues}
             validationSchema={authValidationSchema}
-            onSubmit={values => onSubmit(values, signIn, myFirebase)}
+            onSubmit={values => onSubmit(values, signIn, signInError, myFirebase, history)}
         >
             {
                 ({ values, errors, touched, handleChange, isValid, handleSubmit, dirty }) => {
@@ -80,7 +81,8 @@ const mapStateToProps = () => {
 }
 
 const mapDispatchToProps = {
-    signIn
+    signIn,
+    signInError
 }
 
 export default compose(

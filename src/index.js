@@ -7,7 +7,7 @@ import { FirebaseProvider } from "./firebase-context/firebase-context";
 import store from './store'
 import Firebase from "./firebase";
 
-const myFirebase = new Firebase()
+export const myFirebase = new Firebase()
 myFirebase.__init__()
 
 ReactDOM.render(

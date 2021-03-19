@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import { initialValues, validationSchema } from './validationSchema'
 import styled from 'styled-components'
-import { booksAdded } from '../../actions/actions'
+import { booksAdded, booksError } from '../../actions/actions'
 import compose from '../../utils/compose'
 import hocFirebase from '../HOC_Firebase/hocFirebase'
 
@@ -13,17 +13,21 @@ const Label = styled.label`
     margin-bottom: 5px;
 `
 
-const AddBook = ({ booksAdded, token }) => {
+const AddBook = ({ booksAdded, token, booksError }) => {
     return (
         <Formik
             initialValues={ initialValues }
             validateOnChange
             validationSchema={ validationSchema }
             onSubmit={ async (values) => {
-                await booksAdded(values, token)
-                for(let key in values){
-                    values[key] = ''
+                if(!token){
+                    await booksError(true)
+                    await clearInput(values)
+                    return
                 }
+
+                await booksAdded(values, token)
+                clearInput(values)
             }}
         >
             {
@@ -109,6 +113,12 @@ const AddBook = ({ booksAdded, token }) => {
     )
 }
 
+function clearInput(values) {
+    for(let key in values){
+        values[key] = ''
+    }
+}
+
 const mapStateToProps = ({ authState }) => {
     return {
         token: authState.token
@@ -116,7 +126,8 @@ const mapStateToProps = ({ authState }) => {
 }
 
 const mapDispatchToProps = {
-    booksAdded
+    booksAdded,
+    booksError
 }
 
 export default compose(
