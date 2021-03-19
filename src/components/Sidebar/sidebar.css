@@ -8,6 +8,11 @@
     right: 10px;
 }
 
+.sidebar-large {
+    position: relative;
+    height: calc(100vh -  3.8rem);
+}
+
 .sidebar-size {
     width: 25%;
 }
@@ -23,8 +28,18 @@
         width: 100%;
     }
 
+    .sidebar-adaptive-param {
+        position: fixed;
+        height: 100vh;
+        top: 0;
+    }
+
     .sidebar-close-show {
         display: inline;
+    }
+
+    .flex-direction-column-md {
+        flex-direction: column-reverse;
     }
 }
 

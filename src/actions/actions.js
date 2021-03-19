@@ -17,3 +17,10 @@ export const requestBooks = (dispatch, myFirebase) => () => {
     myFirebase.getBooks()
         .then(data => dispatch(booksLoaded(data)))
 }
+
+export const booksError = (error) => {
+    return {
+        type: 'BOOKS_ERROR',
+        error
+    }
+}

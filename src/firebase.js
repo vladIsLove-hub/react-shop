@@ -16,8 +16,16 @@ export default class Firebase {
         this.baseURL = `${this.firebaseConfig.databaseURL}/books.json`
     }
 
-    __init__(){
+    __init__() {
         firebase.initializeApp(this.firebaseConfig)
+    }
+
+    refreshToken() {
+        // firebase.auth().currentUser.getIdToken(true)
+        //     .then(token => store.dispatch(updateToken(token)))
+        firebase.auth().onAuthStateChanged(user => {
+            console.log(user)
+        })
     }
 
     getBooks = async () => {
@@ -43,13 +51,37 @@ export default class Firebase {
         })
     }
 
-    createAccount = (email, password) => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .catch(error => console.log(error))
+    createAccount = async (email, password, signInAction, signInErrorAction, history) => {
+        return await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.firebaseConfig.apiKey}`,
+            {
+                email, password,
+                returnSecureToken: true //Always be TRUE
+            },
+            {
+                headers:  {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then( async resp => {
+                if(resp.status === 200) {
+                    const { idToken, email } = resp.data
+                    await signInAction(idToken, email)
+                    await signInErrorAction(null)
+                    await history.push('/')
+                }
+            })
+            .catch(error => {
+                const errMessage = error.response.data.error.message
+                if(errMessage === 'EMAIL_EXISTS') {
+                    signInErrorAction('Данный e-mail уже существует')
+                } else if(errMessage === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+                    signInErrorAction('Мы заблокировали все запросы с этого устройства из-за необычной активности. Попробуйте позже.')
+                }
+            })
     }
 
-    loginIn = (email, password) => {
-        return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.firebaseConfig.apiKey}`,
+    loginIn = async (email, password, signInAction, signInErrorAction, history) => {
+        return await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.firebaseConfig.apiKey}`,
         {
             email, password,
             returnSecureToken: true //Always be TRUE
@@ -59,13 +91,34 @@ export default class Firebase {
                 'Content-Type': 'application/json'
             }
         })
-            .then(resp => resp.data)
-            .then(data => data.idToken)
+            .then(async resp => {
+                if(resp.status === 200) {
+                    const { idToken, email } = resp.data
+                    await signInAction(idToken, email)
+                    await signInErrorAction(null)
+                    await history.push('/')
+                }
+            })
+            .catch(error => {
+                const errMessage = error.response.data.error.message
+                if(errMessage === 'EMAIL_NOT_FOUND') {
+                    signInErrorAction('Данного пользователя не существует')
+                } else if(errMessage === 'INVALID_PASSWORD') {
+                    signInErrorAction('Неверный пароль, попробуйте еще раз')
+                } 
+            })     
     }
 
-    sendSignInLinkToEmail = (email) => {
-        firebase.auth().sendSignInLinkToEmail(email, this.actionCodeSettings)
-            .then(() => console.log('Письмо отправлено'))
+    sendSignInLinkToEmail = (email) => { 
+        const actionCodeSettings = {
+            url: `http://localhost:3000/`,
+            handleCodeInApp: true,
+            dynamicLinkDomain: null
+        }
+        firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+            .then(() => {
+                console.log('Сообщение отправлено')
+            })
     }
 }
 

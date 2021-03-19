@@ -3,8 +3,9 @@ import styled from 'styled-components'
 
 const MenuBtn = styled.button`
     position: absolute;
-    top: 10px;
-    left: 15px;
+    top: 14px;
+    left: 21px;
+    z-index: 500;
 `
 
 const MenuButton = ({ setVisible }) => {

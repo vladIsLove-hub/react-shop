@@ -1,8 +1,6 @@
 import { booksInitialState } from "./state"
 import { addBookToState } from '../utils/utils'
-import Firebase from "../firebase"
-
-const firebase = new Firebase()
+import { myFirebase } from "../index"
 
 const bookReducer = ( state = booksInitialState, action ) => {
     switch(action.type){
@@ -14,12 +12,16 @@ const bookReducer = ( state = booksInitialState, action ) => {
         case 'BOOKS_ADD':
             const { dataOfBook, token } = action
             const { newBooks, newBook } = addBookToState(state, dataOfBook)
-            firebase.addBook(newBook, token)
+            myFirebase.addBook(newBook, token)
             return {
                 ...state,
                 books: newBooks
             }
-
+        case 'BOOKS_ERROR': 
+            return {
+                ...state,
+                error: action.error
+            }
         default:
             return state
     }

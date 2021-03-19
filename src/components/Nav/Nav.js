@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { signOut } from '../../actions/authActions'
 import './nav.css'
 
 const CurrentItemsSpan = styled.span`
@@ -16,7 +18,32 @@ const CurrentItemsSpan = styled.span`
     text-align: center;
 `
 
-const Nav = () => {
+const signOutHandler = (signOut) => {
+    const confirmAnswer = window.confirm('Вы действительно желаете выйти?')
+    if(confirmAnswer) {
+        signOut()
+    }
+}
+
+const Account = ({ email, signOut }) => {
+    if(email) {
+        return (
+            <>
+                <button className="account nav-short">{ email }</button>
+                <button onClick={() => signOutHandler(signOut)} className="btn btn-danger nav-short mar-left">Выход</button>
+            </>
+        )
+    }
+
+    return (
+        <>
+            <Link style={{textDecoration: 'none'}} to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
+            <Link style={{textDecoration: 'none'}} to='/registration' className='btn btn-primary nav-short mar-left'>Регистрация</Link>
+        </>
+    )
+}
+ 
+const Nav = ({ email, signOut }) => {
     return (
         <nav style={{padding: '10px 1rem'}} className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
             <div className="container-fluid">
@@ -37,8 +64,7 @@ const Nav = () => {
                             </button>       
                         </li>
                         <li className="nav-item nav-short">
-                            <Link style={{textDecoration: 'none'}} to='/auth' className='btn btn-outline-success nav-short'>Вход</Link>
-                            <Link style={{textDecoration: 'none'}} to='/registration' className='btn btn-primary nav-short mar-left'>Регистрация</Link>
+                            <Account signOut={signOut} email={email} />
                         </li>
                     </ul>
                 </div>
@@ -47,4 +73,14 @@ const Nav = () => {
     )
 }
 
-export default Nav
+const mapStateToProps = ({ authState }) => {
+    return {
+        email: authState.email
+    }
+}
+
+const mapDispatchToProps = {
+    signOut
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav)

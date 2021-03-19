@@ -1,8 +1,10 @@
 export const booksInitialState = {
-    books: []
+    books: [],
+    error: false
 }
 
 export const authInitialState = {
-    hasLogin: false,
-    token: null
+    token: null,
+    error: null,
+    email: null,
 }

@@ -1,3 +1,28 @@
+.account {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #198754;
+    position: relative;
+    cursor: pointer;
+}
+
+.account__dropdown {
+    position: absolute;
+    left: 25%;
+    top: 120%;
+    z-index: 50;
+}
+
+.account:focus {
+    outline: none;
+}
+
+.account:hover {
+    color: #14c774;
+    text-decoration: underline;
+}
+
 @media (max-width: 991.98px) {
     .nav-md-center {
         width: 100%;

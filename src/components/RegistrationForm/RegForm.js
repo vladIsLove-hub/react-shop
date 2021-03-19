@@ -2,17 +2,19 @@ import React from 'react'
 import {Form, Formik} from 'formik'
 import {regInitialValues, validationSchema} from "./validationSchema";
 import { connect } from 'react-redux'
-import { signUp } from "../../actions/authActions";
+import { signIn, signInError } from "../../actions/authActions";
 import compose from "../../utils/compose";
 import hocFirebase from "../HOC_Firebase/hocFirebase";
+import { useHistory } from 'react-router';
 
-const RegForm = ({ signUp, myFirebase }) => {
+const RegForm = ({ signIn, signInError, myFirebase }) => {
+    const history = useHistory()
     return (
         <Formik
             validateOnChange
             initialValues={regInitialValues}
             validationSchema={validationSchema}
-            onSubmit={values => onSubmit(values, signUp, myFirebase)}
+            onSubmit={values => onSubmit(values, signIn, signInError, myFirebase, history)}
         >
             {
                 ({ values, errors, touched, handleChange, isValid, handleSubmit, dirty }) => {
@@ -78,10 +80,9 @@ const RegForm = ({ signUp, myFirebase }) => {
     )
 }
 
-async function onSubmit(values, authAction, myFirebase){
+async function onSubmit(values, signInAction, signInErrorAction, myFirebase, history){
     const { email, password } = values
-    await myFirebase.createAccount(email, password)
-    await authAction(true)
+    await myFirebase.createAccount(email, password, signInAction, signInErrorAction, history)
     for(let key in values){
         values[key] = ''
     }
@@ -92,7 +93,8 @@ const mapStateToProps = () => {
 }
 
 const mapDispatchToProps = {
-    signUp
+    signIn,
+    signInError
 }
 
 export default compose(
