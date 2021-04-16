@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { signOut } from '../../actions/authActions'
 import './nav.css'
+import { removeItemsFromLocalStorage } from '../../utils/utils'
 
 const CurrentItemsSpan = styled.span`
     position: absolute;
@@ -22,6 +23,7 @@ const signOutHandler = (signOut) => {
     const confirmAnswer = window.confirm('Вы действительно желаете выйти?')
     if(confirmAnswer) {
         signOut()
+        removeItemsFromLocalStorage('token', 'email', 'refreshToken', 'expiresIn')
     }
 }
 

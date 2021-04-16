@@ -1,8 +1,10 @@
-export const signIn = (idToken, email) => {
+export const signIn = (idToken, email, refreshToken, expiresIn) => {
     return {
         type: 'SIGN_IN',
         idToken,
-        email
+        email,
+        refreshToken,
+        expiresIn
     }
 }
 
