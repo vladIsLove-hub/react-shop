@@ -6,7 +6,9 @@ const authReducer = (state = authInitialState, action) => {
             return {
                 ...state,
                 token: action.idToken,
-                email: action.email
+                email: action.email,
+                refreshToken: action.refreshToken,
+                expiresIn: action.expiresIn
             }
         case 'SIGN_IN_ERROR': 
             return {

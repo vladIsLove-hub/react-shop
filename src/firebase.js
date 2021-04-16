@@ -1,6 +1,7 @@
 import axios from "axios";
 import firebase from "firebase";
 import 'firebase/database';
+import { setItemsToLocalStorage } from "./utils/utils";
 
 export default class Firebase {
     constructor() {
@@ -18,14 +19,6 @@ export default class Firebase {
 
     __init__() {
         firebase.initializeApp(this.firebaseConfig)
-    }
-
-    refreshToken() {
-        // firebase.auth().currentUser.getIdToken(true)
-        //     .then(token => store.dispatch(updateToken(token)))
-        firebase.auth().onAuthStateChanged(user => {
-            console.log(user)
-        })
     }
 
     getBooks = async () => {
@@ -51,6 +44,18 @@ export default class Firebase {
         })
     }
 
+    updateToken = async ( refreshToken ) => {
+        return await axios.post(`https://securetoken.googleapis.com/v1/token?key=${this.firebaseConfig.apiKey}`,
+            {
+                
+            }
+        )
+    }
+
+    updateTokenWithInterval = () => {
+
+    }
+
     createAccount = async (email, password, signInAction, signInErrorAction, history) => {
         return await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.firebaseConfig.apiKey}`,
             {
@@ -66,6 +71,8 @@ export default class Firebase {
                 if(resp.status === 200) {
                     const { idToken, email } = resp.data
                     await signInAction(idToken, email)
+                    await setItemsToLocalStorage('token', idToken)
+                    await setItemsToLocalStorage('email', email)
                     await signInErrorAction(null)
                     await history.push('/')
                 }
@@ -93,8 +100,12 @@ export default class Firebase {
         })
             .then(async resp => {
                 if(resp.status === 200) {
-                    const { idToken, email } = resp.data
-                    await signInAction(idToken, email)
+                    const { idToken, email, refreshToken, expiresIn } = resp.data
+                    await signInAction(idToken, email, refreshToken, expiresIn)
+                    await setItemsToLocalStorage('token', idToken)
+                    await setItemsToLocalStorage('refreshToken', refreshToken)
+                    await setItemsToLocalStorage('expiresIn', expiresIn)
+                    await setItemsToLocalStorage('email', email)
                     await signInErrorAction(null)
                     await history.push('/')
                 }

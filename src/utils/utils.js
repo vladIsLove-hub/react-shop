@@ -16,3 +16,17 @@ export const addBookToState = (state, dataOfBook) => {
         newBook
     }
 }
+
+export function setItemsToLocalStorage( key = '', values ){
+    localStorage.setItem(key, JSON.stringify(values))
+}
+
+export function getItemsFromLocalStorage( key = '' ){
+    return JSON.parse(localStorage.getItem(key))
+}
+
+export function removeItemsFromLocalStorage( ...keys ) {
+    for(let i = 0; i < keys.length; i++) {
+        localStorage.removeItem(keys[i])
+    }
+}
