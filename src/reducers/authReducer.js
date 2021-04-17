@@ -24,7 +24,8 @@ const authReducer = (state = authInitialState, action) => {
         case 'UPDATE_TOKEN':
             return {
                 ...state,
-                token: action.newToken
+                token: action.idToken,
+                refreshToken: action.refreshToken
             }
         default:
             return state

@@ -44,16 +44,25 @@ export default class Firebase {
         })
     }
 
-    updateToken = async ( refreshToken ) => {
-        return await axios.post(`https://securetoken.googleapis.com/v1/token?key=${this.firebaseConfig.apiKey}`,
-            {
-                
-            }
-        )
-    }
-
-    updateTokenWithInterval = () => {
-
+    updateToken = async ( refreshTokenPrev, updateTokenAction ) => {
+        if(refreshTokenPrev) {
+            return await axios.post(`https://securetoken.googleapis.com/v1/token?key=${this.firebaseConfig.apiKey}`,
+                `grant_type=refresh_token&refresh_token=${refreshTokenPrev}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            )
+                .then(async response => {
+                    if(response.status === 200) {
+                        const { id_token, refresh_token } = response.data
+                        updateTokenAction(id_token, refresh_token)
+                        setItemsToLocalStorage('token', id_token)
+                        setItemsToLocalStorage('refreshToken', refresh_token)
+                    }
+                })
+        }
     }
 
     createAccount = async (email, password, signInAction, signInErrorAction, history) => {
@@ -118,18 +127,6 @@ export default class Firebase {
                     signInErrorAction('Неверный пароль, попробуйте еще раз')
                 } 
             })     
-    }
-
-    sendSignInLinkToEmail = (email) => { 
-        const actionCodeSettings = {
-            url: `http://localhost:3000/`,
-            handleCodeInApp: true,
-            dynamicLinkDomain: null
-        }
-        firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-            .then(() => {
-                console.log('Сообщение отправлено')
-            })
     }
 }
 

@@ -21,9 +21,10 @@ export const signOut = () => {
     }
 }
 
-export const updateToken = (newToken) => {
+export const updateToken = (idToken, refreshToken) => {
     return {
         type: 'UPDATE_TOKEN',
-        newToken
+        idToken,
+        refreshToken
     }
 }
